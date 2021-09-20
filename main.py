@@ -1,26 +1,33 @@
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+from ascii import logo
 
-for i in range(0, 2):
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+def caesar(input_text, shift_amount, user_direction):
+  output_text = ""
+  if user_direction == "decode":
+    shift_amount *= -1
+  for character in input_text:
+    if character in alphabet:
+      position = alphabet.index(character)
+      new_position = position + shift_amount
+      output_text += alphabet[new_position]
+    else:
+      output_text += character
+  print(f"The {user_direction}d text is: {output_text}")
+
+print(logo)
+
+app_exit = False
+while not app_exit:
   direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
   text = input("Type your message:\n").lower()
   shift = int(input("Type the shift number:\n"))
+  shift = shift % 26
 
-  def caesar(input_text, shift_amount, user_direction):
-    output_text = ""
-    if user_direction == "encode":
-      for letter in input_text:
-        position = alphabet.index(letter)
-        if position + shift_amount > 25:
-          shifted_letter = alphabet[(position-26)+shift_amount]
-        else:
-          shifted_letter = alphabet[position+shift_amount]
-        output_text += shifted_letter
-      print(f"The encoded text is: {output_text}")
-    elif user_direction == "decode":
-      for letter in input_text:
-        position = alphabet.index(letter)
-        shifted_letter = alphabet[position-shift_amount]
-        output_text += shifted_letter
-      print(f"The decoded text is: {output_text}")
-  
   caesar(text, shift, direction)
+
+  restart = input("Type 'yes' if you want to go again. Otherwise type 'no'.\n")
+  if restart == "no":
+    app_exit = True
+    print("Goodbye!")
